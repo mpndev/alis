@@ -31,3 +31,18 @@ body {
     text-wrap: balance;
   }
 }
+
+.m-5 {
+    margin: 5px;
+}
+
+input {
+    color: black;
+}
+
+.custom-border {
+    margin-top: 30px;
+    border: 2px solid aqua;
+    padding: 5px;
+    border-radius: 5px;
+}
