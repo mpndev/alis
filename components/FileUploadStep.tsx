@@ -3,7 +3,6 @@ import pdfToText from 'react-pdftotext';
 
 const FileUploadStep = () => {
   const [images, setImages] = useState<string[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [startResult, setStartResult] = useState(0);
   const [endResult, setEndResult] = useState(29); // Default end result for the range
   const [selectAll, setSelectAll] = useState(false);
@@ -30,7 +29,6 @@ const FileUploadStep = () => {
     pdfToText(selectedFile)
       .then((text: string) => setImages(extractImageUrls(text)))
       .catch((error: Error) => console.error("Failed to extract text from pdf"));
-    setCurrentPage(1); // Reset to first page when new file is selected
     setSelectAll(false); // Reset select all checkbox
     setSelectedImages([]); // Reset selected images array
   };
@@ -48,7 +46,7 @@ const FileUploadStep = () => {
 
   const handleSelectAll = () => {
     if (!selectAll) {
-      setSelectedImages(images.slice(startResult, endResult + 1));
+      setSelectedImages(currentImages);
     } else {
       setSelectedImages([]);
     }
@@ -87,12 +85,16 @@ const FileUploadStep = () => {
     });
   };
 
-  const indexOfLastImage = currentPage * (endResult - startResult + 1);
+  const indexOfLastImage = endResult - startResult + 1;
   const indexOfFirstImage = indexOfLastImage - (endResult - startResult + 1);
   const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
 
   return (
     <div>
+      <p>indexOfLastImage: {indexOfLastImage}</p>
+      <p>indexOfFirstImage: {indexOfFirstImage}</p>
+      <p>endResult: {endResult}</p>
+      <p>startResult: {startResult}</p>
       {
         images.length < 1 &&
         <h3 className={'m-5'}>Tip: change your download location in the browser settings so you can find the downloaded files easy.</h3>
@@ -103,7 +105,7 @@ const FileUploadStep = () => {
       }
       {
         images.length < 1 &&
-        <input className={'m-5'} type="file" onChange={handleFileChange} accept=".pdf" />
+        <input className={'m-5 display-block'} type="file" onChange={handleFileChange} accept=".pdf" />
       }
       {
         images.length !== 0 &&
@@ -129,13 +131,9 @@ const FileUploadStep = () => {
           <div className={'m-5'}>Total results: {images.length}</div>
         </div>
       }
-      {
-        selectedImages.length > 0 && (
-          <button className={'m-5 custom-border'} onClick={downloadSelectedImages}>
-            Download Selected Images
-          </button>
-        )
-      }
+      <button disabled={selectedImages.length < 1} className={'m-5 custom-border'} onClick={downloadSelectedImages}>
+        Download Selected Images
+      </button>
       {
         images.length !== 0 &&
         <div>

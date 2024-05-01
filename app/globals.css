@@ -46,3 +46,15 @@ input {
     padding: 5px;
     border-radius: 5px;
 }
+
+.custom-border:disabled {
+    margin-top: 30px;
+    border: 2px solid gray;
+    color: gray;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.display-block {
+    display: block;
+}
