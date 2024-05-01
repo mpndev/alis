@@ -91,10 +91,6 @@ const FileUploadStep = () => {
 
   return (
     <div>
-      <p>indexOfLastImage: {indexOfLastImage}</p>
-      <p>indexOfFirstImage: {indexOfFirstImage}</p>
-      <p>endResult: {endResult}</p>
-      <p>startResult: {startResult}</p>
       {
         images.length < 1 &&
         <h3 className={'m-5'}>Tip: change your download location in the browser settings so you can find the downloaded files easy.</h3>
